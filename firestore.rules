@@ -1,0 +1,66 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAuthenticated() {
+      return request.auth != null && request.auth.uid != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // User profile document
+    match /users/{userId} {
+      allow read: if isOwner(userId);
+      allow create, update: if isOwner(userId)
+        && request.resource.data.id == userId
+        && request.resource.data.name is string
+        && request.resource.data.name.size() > 0
+        && request.resource.data.name.size() <= 100
+        && request.resource.data.email is string
+        && request.resource.data.email.size() > 0
+        && request.resource.data.email.size() <= 200;
+      allow delete: if isOwner(userId);
+
+      // User's private playlists
+      match /playlists/{playlistId} {
+        allow read: if isOwner(userId);
+        allow create, update: if isOwner(userId)
+          && request.resource.data.userId == userId
+          && request.resource.data.name is string
+          && request.resource.data.name.size() > 0
+          && request.resource.data.name.size() <= 100;
+        allow delete: if isOwner(userId);
+      }
+
+      // User's favorited songs
+      match /favorites/{favoriteId} {
+        allow read: if isOwner(userId);
+        allow create, update: if isOwner(userId)
+          && request.resource.data.userId == userId
+          && request.resource.data.songId is string;
+        allow delete: if isOwner(userId);
+      }
+
+      // User's listening playback history
+      match /history/{historyId} {
+        allow read: if isOwner(userId);
+        allow create, update: if isOwner(userId)
+          && request.resource.data.userId == userId
+          && request.resource.data.songId is string;
+        allow delete: if isOwner(userId);
+      }
+    }
+
+    // Global song catalog accessible to authenticated users
+    match /songs/{songId} {
+      allow read: if isAuthenticated();
+      allow create, update: if isAuthenticated()
+        && request.resource.data.title is string
+        && request.resource.data.title.size() > 0
+        && request.resource.data.artist is string;
+      allow delete: if false;
+    }
+  }
+}

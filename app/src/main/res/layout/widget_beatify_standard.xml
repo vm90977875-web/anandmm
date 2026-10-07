@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_standard_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_widget_card"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:padding="14dp">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/widget_standard_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Beatify Music"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:singleLine="true" />
+
+        <TextView
+            android:id="@+id/widget_standard_artist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="Online High-Fidelity Streaming"
+            android:textColor="#B0B8C4"
+            android:textSize="12sp"
+            android:singleLine="true" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/widget_standard_prev_btn"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginEnd="8dp"
+        android:src="@android:drawable/ic_media_previous"
+        android:padding="6dp"
+        android:contentDescription="Previous" />
+
+    <ImageView
+        android:id="@+id/widget_standard_play_btn"
+        android:layout_width="46dp"
+        android:layout_height="46dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/bg_widget_play_btn"
+        android:src="@android:drawable/ic_media_play"
+        android:padding="11dp"
+        android:contentDescription="Play" />
+
+    <ImageView
+        android:id="@+id/widget_standard_next_btn"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:src="@android:drawable/ic_media_next"
+        android:padding="6dp"
+        android:contentDescription="Next" />
+</LinearLayout>

@@ -1,0 +1,6 @@
+{
+  "name": "Beatify",
+  "description": "Spotify-like music streaming and offline player with downloads, playlists, personalized recommendations, real-time lyrics, equalizer, audio quality customization, social sharing, and listening analytics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

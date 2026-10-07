@@ -1,0 +1,206 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile with display name, email, avatar image, handle, music preferences, and settings",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique user ID matching Firebase Auth UID"
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name of the user"
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address of the user"
+        },
+        "avatarUrl": {
+          "type": "string",
+          "description": "Avatar image URL or avatar preset identifier"
+        },
+        "handle": {
+          "type": "string",
+          "description": "User profile handle e.g. @username"
+        },
+        "favoriteGenres": {
+          "type": "array",
+          "description": "Selected musical genres"
+        },
+        "audioQuality": {
+          "type": "string",
+          "description": "Preferred audio streaming quality (e.g. Very High, High, Normal)"
+        },
+        "createdAt": {
+          "type": "number",
+          "description": "Timestamp when the user account was created"
+        },
+        "updatedAt": {
+          "type": "number",
+          "description": "Timestamp when the profile was last updated"
+        }
+      },
+      "required": ["id", "name", "email"]
+    },
+    "UserPlaylist": {
+      "title": "UserPlaylist",
+      "description": "Custom playlist created by the authenticated user",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique playlist identifier"
+        },
+        "userId": {
+          "type": "string",
+          "description": "Owner user ID"
+        },
+        "name": {
+          "type": "string",
+          "description": "Playlist name"
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional description"
+        },
+        "coverUrl": {
+          "type": "string",
+          "description": "Playlist cover image"
+        },
+        "songIds": {
+          "type": "array",
+          "description": "Ordered list of song IDs in this playlist"
+        },
+        "createdAt": {
+          "type": "number",
+          "description": "Timestamp when playlist was created"
+        },
+        "updatedAt": {
+          "type": "number",
+          "description": "Timestamp when playlist was last updated"
+        }
+      },
+      "required": ["id", "userId", "name"]
+    },
+    "UserFavorite": {
+      "title": "UserFavorite",
+      "description": "Favorite song entry bookmarked by user",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Favorite document ID (songId)"
+        },
+        "userId": {
+          "type": "string",
+          "description": "Owner user ID"
+        },
+        "songId": {
+          "type": "string",
+          "description": "ID of the liked song"
+        },
+        "addedAt": {
+          "type": "number",
+          "description": "Timestamp when the song was added to favorites"
+        }
+      },
+      "required": ["id", "userId", "songId"]
+    },
+    "ListeningHistory": {
+      "title": "ListeningHistory",
+      "description": "History log of songs played by the user",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique playback record identifier"
+        },
+        "userId": {
+          "type": "string",
+          "description": "User ID"
+        },
+        "songId": {
+          "type": "string",
+          "description": "Song ID that was played"
+        },
+        "songTitle": {
+          "type": "string",
+          "description": "Song title"
+        },
+        "artist": {
+          "type": "string",
+          "description": "Song artist"
+        },
+        "playedAt": {
+          "type": "number",
+          "description": "Timestamp of playback"
+        }
+      },
+      "required": ["id", "userId", "songId"]
+    },
+    "CloudSong": {
+      "title": "CloudSong",
+      "description": "Global catalog song accessible by authenticated users",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Song unique ID"
+        },
+        "title": {
+          "type": "string",
+          "description": "Song title"
+        },
+        "artist": {
+          "type": "string",
+          "description": "Artist name"
+        },
+        "album": {
+          "type": "string",
+          "description": "Album name"
+        },
+        "durationMs": {
+          "type": "number",
+          "description": "Duration in milliseconds"
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "Album artwork URL from internet"
+        },
+        "genre": {
+          "type": "string",
+          "description": "Genre"
+        },
+        "audioUrl": {
+          "type": "string",
+          "description": "Audio stream or resource URL"
+        }
+      },
+      "required": ["id", "title", "artist"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Private profile document for each user"
+    },
+    "/users/{userId}/playlists/{playlistId}": {
+      "schema": { "$ref": "#/entities/UserPlaylist" },
+      "description": "Playlists created and owned by the user"
+    },
+    "/users/{userId}/favorites/{songId}": {
+      "schema": { "$ref": "#/entities/UserFavorite" },
+      "description": "Favorite songs bookmarked by the user"
+    },
+    "/users/{userId}/history/{historyId}": {
+      "schema": { "$ref": "#/entities/ListeningHistory" },
+      "description": "Playback history records for the user"
+    },
+    "/songs/{songId}": {
+      "schema": { "$ref": "#/entities/CloudSong" },
+      "description": "Global catalog of internet songs readable by signed-in users"
+    }
+  }
+}
